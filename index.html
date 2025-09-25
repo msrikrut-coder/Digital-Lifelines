@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Digital Lifelines — Powering Survival in Crisis</title>
+  <meta name="description" content="DisasterConnect: real-time alerts, shelter locator, help requests, and admin dashboard for rescue coordination."/>
+  <style>
+    /* ---------- Simple Reset ---------- */
+    :root{
+      --bg:#f7fafc;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#0077cc;
+      --accent-2:#00a99d;
+      --max-width:1100px;
+      --radius:12px;
+      --gap:1.25rem;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#0f172a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#eef2f7 0%,var(--bg) 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:1rem;
+      display:flex;
+      justify-content:center;
+    }
+    .site{
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    /* ---------- Header ---------- */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:var(--gap);
+      margin-bottom:1rem;
+    }
+    .logo{
+      display:flex;
+      gap:.75rem;
+      align-items:center;
+      text-decoration:none;
+      color:inherit;
+    }
+    .logo .mark{
+      width:44px;height:44px;border-radius:8px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;
+      box-shadow:0 6px 18px rgba(3,7,18,0.08);
+    }
+    nav ul{display:flex;gap:1rem;list-style:none;padding:0;margin:0}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem}
+    .cta{
+      background:var(--accent);color:#fff;padding:.6rem .85rem;border-radius:10px;text-decoration:none;font-weight:700;
+      box-shadow:0 6px 18px rgba(3,7,18,0.08);
+    }
+
+    /* ---------- Hero ---------- */
+    .hero{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:1.2rem;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:1rem;
+      box-shadow:0 8px 30px rgba(12,20,40,0.04);
+    }
+    .hero-inner{display:flex;flex-direction:column;gap:.75rem}
+    h1{margin:0;font-size:1.5rem;line-height:1.15}
+    p.lead{margin:0;color:var(--muted)}
+    .hero-cta{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
+    .btn{
+      padding:.6rem .9rem;border-radius:10px;text-decoration:none;font-weight:700;border:none;
+      cursor:pointer;font-size:.95rem;
+    }
+    .btn-primary{background:var(--accent);color:white}
+    .btn-ghost{background:#eef6fb;color:var(--accent);font-weight:700}
+
+    /* ---------- Layout ---------- */
+    .layout{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:1rem;
+      margin-top:1rem;
+    }
+    .card{
+      background:var(--card);padding:1rem;border-radius:12px;box-shadow:0 6px 20px rgba(12,20,40,0.04);
+    }
+    .features{display:grid;grid-template-columns:repeat(1,1fr);gap:.75rem}
+    .feature{
+      display:flex;gap:.75rem;align-items:flex-start;
+    }
+    .icon{
+      min-width:44px;height:44px;border-radius:8px;background:#f0f8ff;color:var(--accent);
+      display:grid;place-items:center;font-weight:800;
+    }
+    .feature h4{margin:0;font-size:1rem}
+    .feature p{margin:.25rem 0 0;color:var(--muted);font-size:.92rem}
+
+    form label{display:block;font-weight:700;margin-bottom:.25rem;font-size:.9rem}
+    input[type="text"], input[type="tel"], textarea, select{
+      width:100%;padding:.6rem;border-radius:8px;border:1px solid #dfe8ef;background:#fff;
+      font-size:.95rem;margin-bottom:.6rem;
+    }
+    textarea{min-height:110px;resize:vertical}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+    .small{font-size:.85rem;color:var(--muted)}
+
+    /* ---------- Footer ---------- */
+    footer{margin-top:1rem;text-align:center;color:var(--muted);font-size:.9rem}
+
+    /* ---------- Responsive ---------- */
+    @media(min-width:880px){
+      .hero{grid-template-columns:1fr 420px;align-items:center}
+      .layout{grid-template-columns:2fr 1.2fr}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .hero h1{font-size:1.75rem}
+    }
+    @media(min-width:1100px){
+      .layout{grid-template-columns:2fr 1fr}
+    }
+
+    .imd-card {
+      background: #f0f8ff;
+      border: 1px solid #a5c9e8;
+      border-radius: 10px;
+      padding: 0.6rem 0.9rem;
+      text-align: center;
+      font-weight: 700;
+      color: var(--accent);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 0.9rem;
+    }
+    .imd-card:hover {
+      background-color: #d6eaff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="site" role="document">
+    <header>
+      <a class="logo" href="#" aria-label="DisasterConnect homepage">
+        <span class="mark" aria-hidden="true">DC</span>
+        <div>
+          <div style="font-weight:800">Digital Lifelines</div>
+          <div style="font-size:.82rem;color:var(--muted)">Powering Survival in Crisis</div>
+        </div>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#radar">Live Radar</a></li>
+          <li><a href="#help">Help Request</a></li>
+        </ul>
+      </nav>
+
+      <div style="display:flex;gap:.6rem;align-items:center;">
+        <button id="nearestShelterBtn" class="cta">Find Nearest Shelter</button>
+        <a href="https://mausam.imd.gov.in" target="_blank" rel="noopener noreferrer" class="imd-card" aria-label="Visit IMD Official Website">IMD Site</a>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main>
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero-inner">
+          <h1 id="hero-heading">Digital Lifelines: Powering Survival in Crisis</h1>
+          <p class="lead">Real-time alerts, shelter location, and rescue coordination — an urgent-first platform for citizens and responders.</p>
+
+          <div class="hero-cta">
+            <button id="nearestShelterBtn2" class="btn btn-primary">Find nearest shelter</button>
+            <a class="btn btn-ghost" href="#help">Request help</a>
+          </div>
+
+          <div style="margin-top:.8rem;color:var(--muted);font-size:.92rem">
+            <strong>Quick stats:</strong> Live alerts • Shelter availability • Verified contacts
+          </div>
+        </div>
+
+        <!-- Quick visual / mock card -->
+        <aside style="padding:1rem;background:linear-gradient(180deg,#f0fbff,#ffffff);border-radius:10px;">
+          <div style="font-weight:800;margin-bottom:.5rem">Prototype Snapshot</div>
+          <div style="font-size:.92rem;color:var(--muted);margin-bottom:.6rem">Homepage + Shelter Locator (map) + Help Form</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <div style="background:linear-gradient(180deg,#ffffff,#f6fbfd);padding:.5rem;border-radius:8px;border:1px solid #e6eef4">• Shelter pins on map</div>
+            <div style="background:linear-gradient(180deg,#ffffff,#f6fbfd);padding:.5rem;border-radius:8px;border:1px solid #e6eef4">• One-click request</div>
+            <div style="background:linear-gradient(180deg,#ffffff,#f6fbfd);padding:.5rem;border-radius:8px;border:1px solid #e6eef4">• Admin queue</div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- MAIN LAYOUT -->
+      <section class="layout" aria-labelledby="features">
+        <div class="card" id="features">
+          <h3 style="margin-top:0">Core Features</h3>
+          <div class="features" role="list">
+            <div class="feature" role="listitem">
+              <div class="icon">A</div>
+              <div>
+                <h4>Real-time Alerts</h4>
+                <p>Authoritative emergency alerts and actionable safety steps pushed to users immediately.</p>
+              </div>
+            </div>
+            <div class="feature" role="listitem">
+              <div class="icon">M</div>
+              <div>
+                <h4>Shelter Locator</h4>
+                <p>Search nearest shelters with capacity, directions and contact details (map integration).</p>
+              </div>
+            </div>
+            <div class="feature" role="listitem">
+              <div class="icon">R</div>
+              <div>
+                <h4>Request & Status</h4>
+                <p>Submit help requests, mark yourself safe, or notify others — minimal fields for speed.</p>
+              </div>
+            </div>
+            <div class="feature" role="listitem">
+              <div class="icon">D</div>
+              <div>
+                <h4>Admin Dashboard</h4>
+                <p>Rescue teams and disaster managers monitor requests, allocate resources and coordinate response.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Windy embed -->
+          <h4 id="radar">Live Radar</h4>
+          <div style="margin:1rem 0; position:relative;">
+            <iframe
+              id="windyMap"
+              width="100%"
+              height="320"
+              frameborder="0"
+              style="border:0; border-radius:8px; position:relative; z-index:1;"
+              src=""
+              title="Windy live radar">
+            </iframe>
+            <div style="position:absolute; top:8px; right:8px; z-index:3;">
+              <a href="https://www.windy.com" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:rgba(255,255,255,0.95);color:var(--accent);padding:6px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);font-weight:700;text-decoration:none;font-size:0.9rem;">Open in Windy</a>
+            </div>
+          </div>
+
+          <hr style="margin:1rem 0;border-color:#eef6fa"/>
+          <p class="small">Prototype built with : <strong>HTML & CSS</strong>. Map & live features integrated via geolocation + Windy embed.</p>
+        </div>
+
+        <aside class="card">
+          <div style="margin-top:.8rem">
+            <h4 id="help">Help Request</h4>
+            <form action="mailto:team@example.com" method="post" enctype="text/plain" aria-label="Help request form">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your full name" required>
+              <label for="phone">Phone / Contact</label>
+              <input id="phone" name="phone" type="tel" placeholder="+91 98xxxxxx" required>
+              <label for="location">Approx. Location</label>
+              <input id="location" name="location" type="text" placeholder="Street / Landmark" required>
+              <label for="need">Type of help</label>
+              <select id="need" name="need" required>
+                <option value="">Select</option>
+                <option>Medical aid</option>
+                <option>Rescue / Evacuation</option>
+                <option>Food / Water</option>
+                <option>Temporary shelter</option>
+              </select>
+              <label for="details">Additional details</label>
+              <textarea id="details" name="details" placeholder="Short description (people stuck, injuries etc.)"></textarea>
+              <div style="display:flex;gap:.5rem;align-items:center">
+                <button class="btn btn-primary" type="submit">Send Request</button>
+                <div class="small">Or call emergency hotlines listed above</div>
+              </div>
+            </form>
+          </div>
+
+          <hr style="margin:1rem 0;border-color:#eef6fa"/>
+          <div style="font-size:.9rem;color:var(--muted)">
+            <strong>Admin access:</strong><br/>
+            Demo dashboard link (for judges): <a href="#" style="color:var(--accent)">/admin</a>
+          </div>
+        </aside>
+      </section>
+
+      <footer>
+        <small>© DisasterConnect — Prototype. For hackathon use only.</small>
+      </footer>
+    </main>
+  </div>
+</body>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var defaultLat = 20.29;
+  var defaultLng = 85.82;
+  var defaultZoom = 12;
+
+  var locationInput = document.getElementById('location');
+  var windyIframe = document.getElementById('windyMap');
+
+  function updateWindySrc(lat, lng, zoom) {
+    var newUrl =
+      "https://embed.windy.com/embed2.html?" +
+      "lat=" + lat.toFixed(4) +
+      "&lon=" + lng.toFixed(4) +
+      "&detailLat=" + lat.toFixed(4) +
+      "&detailLon=" + lng.toFixed(4) +
+      "&zoom=" + (zoom || 12) +
+      "&level=surface&overlay=radar&product=radar" +
+      "&menu=&message=true&marker=&calendar=&pressure=" +
+      "&type=map&location=coordinates&detail=" +
+      "&metricWind=default&metricTemp=default&radarRange=-1";
+    windyIframe.src = newUrl;
+  }
+
+  function openNearestShelter(lat, lng) {
+    var mapsUrl = "https://www.google.com/maps/search/shelter/@"+lat+","+lng+",14z";
+    window.open(mapsUrl, "_blank");
+  }
+
+  function handleGeolocationSuccess(pos) {
+    var lat = pos.coords.latitude;
+    var lng = pos.coords.longitude;
+    if (locationInput) locationInput.value = lat.toFixed(5) + ", " + lng.toFixed(5);
+    updateWindySrc(lat, lng, 12);
+
+    document.getElementById('nearestShelterBtn').onclick = () => openNearestShelter(lat, lng);
+    document.getElementById('nearestShelterBtn2').onclick = () => openNearestShelter(lat, lng);
+  }
+
+  function handleGeolocationError() {
+    if (locationInput) locationInput.value = defaultLat + ", " + defaultLng + " (Default)";
+    updateWindySrc(defaultLat, defaultLng, defaultZoom);
+
+    document.getElementById('nearestShelterBtn').onclick = () => openNearestShelter(defaultLat, defaultLng);
+    document.getElementById('nearestShelterBtn2').onclick = () => openNearestShelter(defaultLat, defaultLng);
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, { enableHighAccuracy: true, timeout: 8000 });
+  } else {
+    handleGeolocationError();
+  }
+});
+</script>
+</html>
