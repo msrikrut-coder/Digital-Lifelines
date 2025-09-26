@@ -294,7 +294,7 @@
       </section>
 
       <footer>
-        <small>© DisasterConnect — Prototype. For hackathon use only.</small>
+        <small>© Digital Lifelines — Prototype. For hackathon use only.</small>
       </footer>
     </main>
   </div>
@@ -339,7 +339,7 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 
   function handleGeolocationError() {
-    if (locationInput) locationInput.value = defaultLat + ", " + defaultLng + " (Default)";
+    if (locationInput) locationInput.value = "Unable to fetch location, please enter manually";
     updateWindySrc(defaultLat, defaultLng, defaultZoom);
 
     document.getElementById('nearestShelterBtn').onclick = () => openNearestShelter(defaultLat, defaultLng);
